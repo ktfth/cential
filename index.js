@@ -36,3 +36,11 @@ Engine.prototype.write = function() { return write.apply(this, Array.from(argume
 assert.deepEqual((new Engine()).write(), JSON.stringify({ 'foo': 'bar' }));
 
 assert.ok((new Engine()).root !== undefined);
+
+let engine = new Engine();
+engine.store('foo', 'bar');
+assert.deepEqual(engine.root, { 'foo': 'bar' });
+engine.write();
+assert.deepEqual(JSON.parse(fs.readFileSync('./engine.db')), { 'foo': 'bar' });
+
+fs.unlinkSync('./engine.db');
