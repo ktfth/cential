@@ -71,30 +71,30 @@ function Storage() {
   this.engine = new Engine({
     dbPath: './storage.db'
   });
-  this.engine.write();
+  this.engine.write.call(this.engine);
 }
 exports.Storage = Storage;
 
 Storage.prototype.create = function () {
   this.engine.store.apply(this.engine, Array.from(arguments));
-  this.engine.write();
+  this.engine.write.call(this.engine);
   return this;
 };
 
 Storage.prototype.read = function () {
   const args = Array.from(arguments);
   if (args.length) return this.engine.get.apply(this.engine, args);
-  return this.engine.read();
+  return this.engine.read.call(this.engine);
 };
 
 Storage.prototype.update = function () {
   this.engine.store.apply(this.engine, Array.from(arguments));
-  this.engine.write();
+  this.engine.write.call(this.engine);
   return this;
 };
 
 Storage.prototype.delete = function () {
   this.engine.unstore.apply(this.engine, Array.from(arguments));
-  this.engine.write(true);
+  this.engine.write.call(this.engine, true);
   return this;
 };
