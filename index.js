@@ -2,6 +2,9 @@
 const fs = require('fs');
 const assert = require('assert');
 
+function DataBuilder() {}
+exports.DataBuilder = DataBuilder;
+
 let root = {};
 
 function store(key, value) {
