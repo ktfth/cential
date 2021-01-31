@@ -21,9 +21,9 @@ function Engine(opts) {
 exports.Engine = Engine;
 Engine.prototype.store = function() { return store.apply(this, Array.from(arguments)); };
 
-function write(filePath='./engine.db') {
+function write(filePath='./engine.db', cleanRoot=false) {
   let data = null;
-  if (fs.existsSync(filePath)) {
+  if (fs.existsSync(filePath) && !cleanRoot) {
     let curr = JSON.parse(fs.readFileSync(filePath));
     Object.keys(this.root).map(k => curr[k] = this.root[k]);
     data = JSON.stringify(curr);
@@ -90,5 +90,11 @@ Storage.prototype.read = function () {
 Storage.prototype.update = function () {
   this.engine.store.apply(this.engine, Array.from(arguments));
   this.engine.write();
+  return this;
+};
+
+Storage.prototype.delete = function () {
+  this.engine.unstore.apply(this.engine, Array.from(arguments));
+  this.engine.write(true);
   return this;
 };
