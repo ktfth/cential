@@ -121,4 +121,11 @@ describe('Storage', () => {
     storage.update('foo', 'biz');
     assert.deepEqual(storage.engine.read(), { 'foo': 'biz' });
   });
+
+  it('should delete data', () => {
+    storage.create('bar', 'buzz');
+    assert.deepEqual(storage.read(), { 'foo': 'biz', 'bar': 'buzz' }, 'Simple creation');
+    storage.delete('bar');
+    assert.deepEqual(storage.read(), { 'foo': 'biz' }, 'Delete operation');
+  });
 });
