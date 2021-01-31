@@ -87,5 +87,15 @@ customEngine.store('bar', 'biz');
 customEngine.unstore('bar');
 assert.deepEqual(customEngine.root, { 'foo': 'baz' });
 
+function get(key) {
+  return this.root[key];
+}
+
+assert.equal(get.call({ root: sampleRoot }, 'foo'), 'baz');
+
+Engine.prototype.get = function () { return get.apply(this, Array.from(arguments)) };
+
+assert.equal(customEngine.get('foo'), 'baz');
+
 fs.unlinkSync('./custom-engine.db');
 fs.unlinkSync('./engine.db');
