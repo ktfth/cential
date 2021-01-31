@@ -81,6 +81,12 @@ Storage.prototype.create = function () {
   return this;
 };
 
+Storage.prototype.read = function () {
+  const args = Array.from(arguments);
+  if (args.length) return this.engine.get.apply(this.engine, args);
+  return this.engine.read();
+};
+
 Storage.prototype.update = function () {
   this.engine.store.apply(this.engine, Array.from(arguments));
   this.engine.write();
