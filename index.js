@@ -19,7 +19,7 @@ function Engine(opts) {
   }
 }
 assert.ok((new Engine()) instanceof Engine, 'Engine instantiation');
-Engine.prototype.store = function() { return store.apply(this, Array.from(arguments)); }
+Engine.prototype.store = function() { return store.apply(this, Array.from(arguments)); };
 assert.deepEqual((new Engine()).store('foo', 'bar'), { 'foo': 'bar' });
 
 function write(filePath='./engine.db') {
@@ -45,7 +45,7 @@ Engine.prototype.write = function() {
   }
   _cachedArgs.map(v => args.push(v));
   return write.apply(this, args);
-}
+};
 assert.deepEqual((new Engine()).write(), JSON.stringify({ 'foo': 'bar' }));
 
 assert.ok((new Engine()).root !== undefined);
@@ -65,12 +65,27 @@ store.call({ root: sampleRoot }, 'foo', 'baz');
 write.call({ root: sampleRoot }, './custom-engine.db');
 assert.deepEqual(read.call({ dbPath: './custom-engine.db' }), { 'foo': 'baz' });
 
-Engine.prototype.read = function () { return read.apply(this, Array.from(arguments)); }
+Engine.prototype.read = function () { return read.apply(this, Array.from(arguments)); };
 
 let customEngine = new Engine({ dbPath: './custom-engine.db' });
 customEngine.store('foo', 'baz');
 customEngine.write();
 assert.deepEqual(customEngine.read(), { 'foo': 'baz' });
+
+function unstore(key) {
+  delete this.root[key];
+  return this.root;
+}
+
+store.call({ root: sampleRoot }, 'bar', 'biz');
+unstore.call({ root: sampleRoot }, 'bar');
+assert.deepEqual(sampleRoot, { 'foo': 'baz' });
+
+Engine.prototype.unstore = function () { return unstore.apply(this, Array.from(arguments)); };
+
+customEngine.store('bar', 'biz');
+customEngine.unstore('bar');
+assert.deepEqual(customEngine.root, { 'foo': 'baz' });
 
 fs.unlinkSync('./custom-engine.db');
 fs.unlinkSync('./engine.db');
