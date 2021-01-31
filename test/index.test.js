@@ -108,4 +108,9 @@ describe('Storage', () => {
     storage.create('foo', 'bar');
     assert.deepEqual(storage.engine.read(), { 'foo': 'bar' });
   });
+
+  it('should update data', () => {
+    storage.update('foo', 'biz');
+    assert.deepEqual(storage.engine.read(), { 'foo': 'biz' });
+  });
 });

@@ -80,3 +80,9 @@ Storage.prototype.create = function () {
   this.engine.write();
   return this;
 };
+
+Storage.prototype.update = function () {
+  this.engine.store.apply(this.engine, Array.from(arguments));
+  this.engine.write();
+  return this;
+};
