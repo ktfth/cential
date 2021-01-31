@@ -5,8 +5,33 @@ const assert = require('assert');
 const { DataBuilder, Engine, store, unstore, write, read, get, Storage } = require('../');
 
 describe('DataBuilder', () => {
+  after(() => {
+    fs.unlinkSync('./data-builder.db');
+  });
+
   it('should be an instance of', () => {
     assert.ok((new DataBuilder()) instanceof DataBuilder);
+  });
+
+  it('should construct data across paths', () => {
+    fs.writeFileSync('./data-builder.db', JSON.stringify({ 'foo': 'bar' }));
+
+    let dataBuilder = new DataBuilder({
+      filePath: './data-builder.db',
+      cleanRoot: false,
+      root: {}
+    });
+
+    assert.equal(dataBuilder.dump(), JSON.stringify({ 'foo': 'bar' }));
+  });
+
+  it('should construct data across conditions', () => {
+    let dataBuilder = new DataBuilder({
+      cleanRoot: true,
+      root: { 'foo': 'biz' }
+    });
+
+    assert.equal(dataBuilder.dump(), JSON.stringify({ 'foo': 'biz' }));
   });
 });
 
