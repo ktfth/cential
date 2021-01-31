@@ -66,3 +66,17 @@ function get(key) {
 exports.get = get;
 
 Engine.prototype.get = function () { return get.apply(this, Array.from(arguments)) };
+
+function Storage() {
+  this.engine = new Engine({
+    dbPath: './storage.db'
+  });
+  this.engine.write();
+}
+exports.Storage = Storage;
+
+Storage.prototype.create = function () {
+  this.engine.store.apply(this.engine, Array.from(arguments));
+  this.engine.write();
+  return this;
+};

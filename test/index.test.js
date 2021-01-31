@@ -2,7 +2,7 @@
 const fs = require('fs');
 const assert = require('assert');
 
-const { Engine, store, unstore, write, read, get } = require('../');
+const { Engine, store, unstore, write, read, get, Storage } = require('../');
 
 describe('Engine', () => {
   after(() => {
@@ -82,5 +82,30 @@ describe('Engine', () => {
 
   it('should get data by instance', () => {
     assert.equal(customEngine.get('foo'), 'baz');
+  });
+});
+
+describe('Storage', () => {
+  let storage;
+
+  before(() => {
+    storage = new Storage();
+  });
+
+  after(() => {
+    fs.unlinkSync('./storage.db');
+  });
+
+  it('should instantiate the adpter', () => {
+    assert.ok(storage instanceof Storage);
+  });
+
+  it('should create database', () => {
+    assert.ok(fs.existsSync('./storage.db'));
+  });
+
+  it('should create data', () => {
+    storage.create('foo', 'bar');
+    assert.deepEqual(storage.engine.read(), { 'foo': 'bar' });
   });
 });
