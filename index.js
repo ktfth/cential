@@ -8,7 +8,7 @@ function store(key, value) {
   this.root[key] = value;
   return this.root;
 }
-assert.deepEqual(store.call({ root: {} }, 'foo', 'bar'), { 'foo': 'bar' }, 'Store engine structure');
+exports.store = store;
 
 function Engine(opts) {
   const self = this;
@@ -18,7 +18,7 @@ function Engine(opts) {
     Object.keys(opts).map(k => self[k] = opts[k]);
   }
 }
-assert.ok((new Engine()) instanceof Engine, 'Engine instantiation');
+exports.Engine = Engine;
 Engine.prototype.store = function() { return store.apply(this, Array.from(arguments)); };
 assert.deepEqual((new Engine()).store('foo', 'bar'), { 'foo': 'bar' });
 
