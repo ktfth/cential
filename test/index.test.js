@@ -2,7 +2,13 @@
 const fs = require('fs');
 const assert = require('assert');
 
-const { Engine, store, unstore, write, read, get, Storage } = require('../');
+const { DataBuilder, Engine, store, unstore, write, read, get, Storage } = require('../');
+
+describe('DataBuilder', () => {
+  it('should be an instance of', () => {
+    assert.ok((new DataBuilder()) instanceof DataBuilder);
+  });
+});
 
 describe('Engine', () => {
   after(() => {
