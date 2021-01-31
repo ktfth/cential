@@ -2,8 +2,21 @@
 const fs = require('fs');
 const assert = require('assert');
 
-function DataBuilder() {}
+function DataBuilder(opts={}) {
+  this.data = {};
+  if (opts.filePath !== undefined && fs.existsSync(opts.filePath) && !opts.cleanRoot) {
+    let curr = JSON.parse(fs.readFileSync(opts.filePath));
+    Object.keys(opts.root).map(k => curr[k] = opts.root[k]);
+    this.data = JSON.stringify(curr);
+  } else {
+    this.data = JSON.stringify(opts.root);
+  }
+}
 exports.DataBuilder = DataBuilder;
+
+DataBuilder.prototype.dump = function () {
+  return this.data;
+};
 
 let root = {};
 
@@ -25,14 +38,12 @@ exports.Engine = Engine;
 Engine.prototype.store = function() { return store.apply(this, Array.from(arguments)); };
 
 function write(filePath='./engine.db', cleanRoot=false) {
-  let data = null;
-  if (fs.existsSync(filePath) && !cleanRoot) {
-    let curr = JSON.parse(fs.readFileSync(filePath));
-    Object.keys(this.root).map(k => curr[k] = this.root[k]);
-    data = JSON.stringify(curr);
-  } else {
-    data = JSON.stringify(this.root);
-  }
+  let dataBuilder = new DataBuilder({
+    filePath: filePath,
+    cleanRoot: cleanRoot,
+    root: this.root
+  });
+  let data = dataBuilder.dump();
   fs.writeFileSync(filePath, data);
   return data;
 }
