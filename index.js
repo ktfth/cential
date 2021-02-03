@@ -3,8 +3,8 @@ const fs = require('fs');
 const crypto = require('crypto');
 const assert = require('assert');
 
-function Limits() {
-  this.size = 10000;
+function Limits(opts={}) {
+  this.size = opts.size || 10000;
 }
 exports.Limits = Limits;
 
