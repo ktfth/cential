@@ -1,9 +1,28 @@
 'use strict';
 const fs = require('fs');
+const crypto = require('crypto');
 const assert = require('assert');
 
-function Limits() {}
+function Limits() {
+  this.size = 10000;
+}
 exports.Limits = Limits;
+
+function uuid(len=8) {
+  return crypto.randomBytes(Math.ceil(Math.max(8, len * 2)))
+    .toString('base64')
+    .replace(/[+\/]/g, '')
+    .slice(0, len);
+}
+
+Limits.prototype.generate = function () {
+  let out = {};
+  for (let i = 0; i < this.size; i += 1) {
+    out[uuid()] = uuid();
+  }
+  out.sizeOf = () => this.size;
+  return out;
+};
 
 function DataBuilder(opts={}) {
   this.data = {};
