@@ -42,4 +42,9 @@ describe('Rigid layer', () => {
     rigidLayer.checkpoint();
     assert.deepEqual(JSON.parse(fs.readFileSync('./rigid-layer.kpt')), {'cursor': 1, 'blocks': 1});
   });
+
+  it('should have a cursor operation', () => {
+    rigidLayer.push({ 'baz': 'buzz' }, { 'zoo': 'kaz' });
+    assert.deepEqual(rigidLayer.readFromCursor(1), { 'baz': 'buzz' });
+  });
 });
