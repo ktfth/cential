@@ -2,7 +2,14 @@
 const fs = require('fs');
 const assert = require('assert');
 
-const { DataBuilder, Engine, store, unstore, write, read, get, Storage } = require('../');
+const { DataBuilder,
+        Engine,
+        store,
+        unstore,
+        write,
+        read,
+        get,
+        Storage } = require('../');
 
 describe('DataBuilder', () => {
   after(() => {
