@@ -1,10 +1,15 @@
 'use strict';
+const fs = require('fs');
 const assert = require('assert');
 
 const RigidLayer = require('../rigid-layer');
 
 describe('Rigid layer', () => {
   let rigidLayer;
+
+  after(() => {
+    fs.unlinkSync('./rigid-layer.db');
+  });
 
   it('should instantiate', () => {
     rigidLayer = new RigidLayer();
@@ -19,5 +24,10 @@ describe('Rigid layer', () => {
   it('should push data through grid', () => {
     rigidLayer.push({ 'foo': 'bar' });
     assert.deepEqual(rigidLayer.grid, [{'foo': 'bar'}]);
+  });
+
+  it('should write data from grid', () => {
+    rigidLayer.save();
+    assert.deepEqual(JSON.parse(fs.readFileSync('./rigid-layer.db')), [{'foo':'bar'}]);
   });
 });
