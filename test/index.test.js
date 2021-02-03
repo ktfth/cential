@@ -21,6 +21,11 @@ describe('Limits', () => {
     let limits = new Limits();
     assert.equal(limits.generate().sizeOf(), 10000);
   });
+
+  it('should set size', () => {
+    let limits = new Limits({ size: 100000 });
+    assert.equal(limits.size, 100000);
+  });
 });
 
 describe('DataBuilder', () => {
