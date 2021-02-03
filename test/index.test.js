@@ -9,7 +9,14 @@ const { DataBuilder,
         write,
         read,
         get,
-        Storage } = require('../');
+        Storage,
+        Limits } = require('../');
+
+describe('Limits', () => {
+  it('should be an instance', () => {
+    assert.ok((new Limits()) instanceof Limits);
+  });
+});
 
 describe('DataBuilder', () => {
   after(() => {
