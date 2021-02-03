@@ -9,6 +9,7 @@ describe('Rigid layer', () => {
 
   after(() => {
     fs.unlinkSync('./rigid-layer.db');
+    fs.unlinkSync('./rigid-layer.kpt');
   });
 
   it('should instantiate', () => {
@@ -35,5 +36,10 @@ describe('Rigid layer', () => {
     rigidLayer.grid = [];
     rigidLayer.load();
     assert.deepEqual(rigidLayer.grid, [{'foo': 'bar'}]);
+  });
+
+  it('should operate as a checkpoint', () => {
+    rigidLayer.checkpoint();
+    assert.deepEqual(JSON.parse(fs.readFileSync('./rigid-layer.kpt')), {'cursor': 1, 'blocks': 1});
   });
 });
