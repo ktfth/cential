@@ -2,6 +2,9 @@
 const fs = require('fs');
 const assert = require('assert');
 
+function Limits() {}
+exports.Limits = Limits;
+
 function DataBuilder(opts={}) {
   this.data = {};
   if (opts.filePath !== undefined && fs.existsSync(opts.filePath) && !opts.cleanRoot) {
