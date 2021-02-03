@@ -17,4 +17,9 @@ RigidLayer.prototype.save = function () {
   return this;
 };
 
+RigidLayer.prototype.load = function () {
+  this.grid = JSON.parse(fs.readFileSync(this.filename));
+  return this;
+};
+
 module.exports = RigidLayer;
