@@ -15,4 +15,9 @@ describe('Rigid layer', () => {
   it('should have grid', () => {
     assert.deepEqual(rigidLayer.grid, []);
   });
+
+  it('should push data through grid', () => {
+    rigidLayer.push({ 'foo': 'bar' });
+    assert.deepEqual(rigidLayer.grid, [{'foo': 'bar'}]);
+  });
 });
