@@ -32,4 +32,8 @@ RigidLayer.prototype.checkpoint = function () {
   return this;
 };
 
+RigidLayer.prototype.readFromCursor = function (c=this.cursor) {
+  return this.grid[c];
+};
+
 module.exports = RigidLayer;
