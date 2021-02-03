@@ -16,6 +16,11 @@ describe('Limits', () => {
   it('should be an instance', () => {
     assert.ok((new Limits()) instanceof Limits);
   });
+
+  it('should be generate a large object', () => {
+    let limits = new Limits();
+    assert.equal(limits.generate().sizeOf(), 10000);
+  });
 });
 
 describe('DataBuilder', () => {
