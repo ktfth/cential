@@ -26,8 +26,14 @@ describe('Rigid layer', () => {
     assert.deepEqual(rigidLayer.grid, [{'foo': 'bar'}]);
   });
 
-  it('should write data from grid', () => {
+  it('should save data from grid', () => {
     rigidLayer.save();
     assert.deepEqual(JSON.parse(fs.readFileSync('./rigid-layer.db')), [{'foo':'bar'}]);
+  });
+
+  it('should load data from file', () => {
+    rigidLayer.grid = [];
+    rigidLayer.load();
+    assert.deepEqual(rigidLayer.grid, [{'foo': 'bar'}]);
   });
 });
