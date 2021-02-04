@@ -38,4 +38,10 @@ RigidLayer.prototype.readFromCursor = function (c=this.cursor) {
   return this.grid[c];
 };
 
+RigidLayer.prototype.restore = function () {
+  const checkpoint = JSON.parse(fs.readFileSync(this.filename.replace('.db', '.kpt')));
+  this.cursor = checkpoint.cursor;
+  return this;
+};
+
 module.exports = RigidLayer;
