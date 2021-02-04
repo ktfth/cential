@@ -47,4 +47,10 @@ describe('Rigid layer', () => {
     rigidLayer.push({ 'baz': 'buzz' }, { 'zoo': 'kaz' });
     assert.deepEqual(rigidLayer.readFromCursor(1), { 'baz': 'buzz' });
   });
+
+  it('should restore from a checkpoint', () => {
+    fs.writeFileSync(rigidLayer.filename.replace('.db', '.kpt'), JSON.stringify({ 'cursor': 2, 'blocks': 1 }));
+    rigidLayer.restore();
+    assert.equal(rigidLayer.cursor, 2);
+  });
 });
