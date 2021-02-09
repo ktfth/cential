@@ -111,13 +111,13 @@ function Storage() {
 }
 exports.Storage = Storage;
 
-Storage.prototype.create = function () {
+Storage.prototype.set = function () {
   this.engine.store.apply(this.engine, Array.from(arguments));
   this.engine.write.call(this.engine);
   return this;
 };
 
-Storage.prototype.read = function () {
+Storage.prototype.get = function () {
   const args = Array.from(arguments);
   if (args.length) return this.engine.get.apply(this.engine, args);
   return this.engine.read.call(this.engine);
