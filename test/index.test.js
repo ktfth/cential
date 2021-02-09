@@ -160,16 +160,16 @@ describe('Storage', () => {
   });
 
   it('should create data', () => {
-    storage.create('foo', 'bar');
+    storage.set('foo', 'bar');
     assert.deepEqual(storage.engine.read(), { 'foo': 'bar' });
   });
 
   it('should read data', () => {
-    assert.deepEqual(storage.read(), { 'foo': 'bar' });
+    assert.deepEqual(storage.get(), { 'foo': 'bar' });
   });
 
   it('should read specific data', () => {
-    assert.equal(storage.read('foo'), 'bar');
+    assert.equal(storage.get('foo'), 'bar');
   });
 
   it('should update data', () => {
@@ -178,9 +178,9 @@ describe('Storage', () => {
   });
 
   it('should delete data', () => {
-    storage.create('bar', 'buzz');
-    assert.deepEqual(storage.read(), { 'foo': 'biz', 'bar': 'buzz' }, 'Simple creation');
+    storage.set('bar', 'buzz');
+    assert.deepEqual(storage.get(), { 'foo': 'biz', 'bar': 'buzz' }, 'Simple creation');
     storage.delete('bar');
-    assert.deepEqual(storage.read(), { 'foo': 'biz' }, 'Delete operation');
+    assert.deepEqual(storage.get(), { 'foo': 'biz' }, 'Delete operation');
   });
 });
